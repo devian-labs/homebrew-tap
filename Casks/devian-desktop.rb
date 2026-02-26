@@ -7,7 +7,7 @@ cask "devian-desktop" do
   desc "Local AI Desktop Environment for Developers"
   homepage "https://github.com/devian-labs/devian-web"
 
-  app "Devian Desktop.app"
+  app "Devian Desktop.app", target: "Devian.app"
 
   zap trash: [
     "~/Library/Application Support/com.devian.desktop",
