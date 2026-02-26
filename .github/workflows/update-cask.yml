@@ -1,0 +1,32 @@
+name: Update Cask Version
+
+on:
+  repository_dispatch:
+    types: [update-cask]
+
+permissions:
+  contents: write
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      - name: Update Cask file
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          echo "Updating to version: $VERSION"
+          sed -i "s/version \".*\"/version \"$VERSION\"/" Casks/devian-desktop.rb
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add Casks/devian-desktop.rb
+          # Only commit if there are changes
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: bump cask version to v${{ github.event.client_payload.version }}"
+          git push origin main
