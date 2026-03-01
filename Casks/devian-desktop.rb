@@ -1,5 +1,5 @@
 cask "devian-desktop" do
-  version "0.2.2"
+  version "1.0.0"
   sha256 :no_check
 
   url "https://github.com/devian-labs/devian-web/releases/download/v#{version}/Devian.Desktop_#{version}_aarch64.dmg"
